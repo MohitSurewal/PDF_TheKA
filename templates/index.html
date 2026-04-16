@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="text-center mb-4">📁 PDF THeKA Dashboard</h2>
+<hr><h5 class="text-center mb-5">We are here to help you with all your PDF needs! At "CONTACT_US"</h5><hr>
+
+<div class="row g-5">
+<div class="hero">
+    <h1>PDF TheKA 〽️</h1>
+    <p>All-in-one solution for your PDF needs</p>
+</div>
+<div class="col-md-6">
+<div class="card p-3 text-center">
+    <h5><i class="bi bi-files"></i> Merge PDFs</h5>
+    <p>Combine multiple PDFs into one</p>
+
+    <form action="/merge" method="post" enctype="multipart/form-data">
+        <input class="form-control mb-2" type="file" name="pdfs" multiple required>
+        <input class="form-control mb-2" type="file" name="pdfs" multiple required>
+        <button class="btn btn-custom w-100">Merge</button>
+    </form>
+</div>
+</div>
+
+<div class="col-md-6">
+<div class="card p-3 text-center">
+    <h5><i class="bi bi-files"></i> Split PDF</h5>
+    <p>Split a PDF into multiple pages</p>
+
+    <form action="/split" method="post" enctype="multipart/form-data">
+        <input class="form-control mb-2" type="file" name="pdfs" multiple required>
+        <input class="form-control mb-2" type="number" name="page" placeholder="Page number to split at" required>
+        <input class="form-control mb-2" type="number" name="page2" placeholder="(Optional) End page for range split">
+        <button class="btn btn-custom w-100">Split</button>
+    </form>
+</div>
+</div>
+
+
+<div class="col-md-6">
+<div class="card p-3 text-center">
+    <h5><i class="bi bi-files"></i> Extract PDFs text</h5>
+    <p>Extract text from multiple PDFs</p>
+
+    <form action="/extract-text" method="post" enctype="multipart/form-data">
+        <input class="form-control mb-2" type="file" name="pdfs" multiple required>
+        <button class="btn btn-custom w-100">Extract Text</button>
+    </form>
+</div>
+</div>
+
+
+<div class="col-md-6">
+<div class="card p-3 text-center">
+    <h5><i class="bi bi-files"></i> Extract PDF Images</h5>
+    <p>Extract images from a PDF file</p>
+
+    <form action="/extract-images" method="post" enctype="multipart/form-data">
+        <input class="form-control mb-2" type="file" name="pdf" required>
+        <button class="btn btn-info w-100">Extract Images</button>
+    </form>
+</div>
+</div>
+
+
+<div class="col-md-6">
+<div class="card p-3 text-center">
+    <h5><i class="bi bi-files"></i> Compress PDF</h5>
+    <p>Reduce the file size of your PDFs</p>
+
+    <form action="/compress" method="post" enctype="multipart/form-data">
+        <input class="form-control mb-2" type="file" name="pdf" required>
+        <button class="btn btn-danger w-100">Compress</button>
+    </form>
+    <br><p class="text-center"></p>© 2026 SUREWAL.TECH. All rights reserved.</p>
+</div>
+</div>
+</div>
+{% endblock %}
