@@ -95,7 +95,7 @@ def extract_images():
             count += 1
 
     return f"{count} images extracted!"
-    # PyPDF2 supports page.images extraction :contentReference[oaicite:2]{index=2}
+
 
 
 @app.route('/compress', methods=['POST'])
@@ -108,7 +108,7 @@ def compress_pdf():
     writer = PdfWriter()
 
     for page in reader.pages:
-        page.compress_content_streams()  # compression
+        page.compress_content_streams()  
         writer.add_page(page)
 
     output_path = os.path.join(OUTPUT_FOLDER, "compressed.pdf")
@@ -127,8 +127,8 @@ def base():
     return render_template("base.html")
 
 
-@app.route("/services")
-def services():
+@app.route("/About")
+def About():
     services_list = [
         "Merge PDFs",
         "Split PDFs",
@@ -136,7 +136,7 @@ def services():
         "Extract Images",
         "Compress PDF"
     ]
-    return render_template("services.html", services=services_list)
+    return render_template("About.html", services=services_list)
 
 
 @app.route("/contact", methods=["GET", "POST"])
@@ -167,7 +167,7 @@ def contact():
 
         
         with open("data.txt", "a", encoding="utf-8") as f:
-            f.write(f"Name: {name}\nEmail: {email}\nMessage: {message}\n")
+            f.write(f"\nName: {name}\nEmail: {email}\nMessage: {message}\n")
 
         
         num1 = random.randint(1, 10)
