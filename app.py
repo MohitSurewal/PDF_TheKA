@@ -33,6 +33,77 @@ def merge_pdfs():
 
     return send_file(output_path, as_attachment=True)
 
+@app.route('/encrypt', methods=['POST'])
+def encrypt_pdf():
+    file = request.files['pdf']
+    password = request.form['password']
+
+    path = os.path.join(UPLOAD_FOLDER, file.filename)
+    file.save(path)
+
+    reader = PdfReader(path)
+    writer = PdfWriter()
+
+    for page in reader.pages:
+        writer.add_page(page)
+
+    writer.encrypt(password)
+
+    output_path = os.path.join(OUTPUT_FOLDER, "encrypted.pdf")
+    with open(output_path, "wb") as f:
+        writer.write(f)
+
+    return send_file(output_path, as_attachment=True)
+
+
+@app.route('/decrypt', methods=['POST'])
+def decrypt_pdf():
+    file = request.files['pdf']
+    password = request.form['password']
+
+    path = os.path.join(UPLOAD_FOLDER, file.filename)
+    file.save(path)
+
+    reader = PdfReader(path)
+    if reader.is_encrypted:
+        try:
+            reader.decrypt(password)
+        except Exception as e:
+            return f"Decryption failed: {str(e)}"   
+    writer = PdfWriter()
+    for page in reader.pages:
+        writer.add_page(page)
+
+    output_path = os.path.join(OUTPUT_FOLDER, "decrypted.pdf")
+    with open(output_path, "wb") as f:
+        writer.write(f)
+
+    return send_file(output_path, as_attachment=True)
+
+@app.route('/rotate', methods=['POST'])
+def rotate_pdf():
+    file = request.files['pdf']
+    direction = request.form['direction']
+
+    path = os.path.join(UPLOAD_FOLDER, file.filename)
+    file.save(path)
+
+    reader = PdfReader(path)
+    writer = PdfWriter()
+
+    for page in reader.pages:
+        if direction == "clockwise":
+            page.rotate(90)
+        elif direction == "counterclockwise":
+            page.rotate(-90)
+        writer.add_page(page)
+
+    output_path = os.path.join(OUTPUT_FOLDER, "rotated.pdf")
+    with open(output_path, "wb") as f:
+        writer.write(f)
+
+    return send_file(output_path, as_attachment=True)
+
 
 
 @app.route('/split', methods=['POST'])
@@ -122,9 +193,6 @@ def compress_pdf():
 def home():
     return render_template("index.html")
 
-@app.route('/')
-def base():
-    return render_template("base.html")
 
 
 @app.route("/About")
@@ -188,5 +256,5 @@ def contact():
 
     return render_template("contact.html", num1=num1, num2=num2)
   
-if __name__ == "__main__":
-    app.run(debug=True)
+
+app.run(debug=True)
